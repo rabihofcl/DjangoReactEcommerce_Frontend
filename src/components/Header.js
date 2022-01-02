@@ -37,8 +37,15 @@ function Header() {
                     <Button variant="outline-success">Search</Button>
                 </Form>
                 </Nav>
-                <Nav.Link href="#action1"><i className="fas fa-shopping-cart"></i>&#160;&#160;Cart</Nav.Link>
-                    <Nav.Link href="#action2"><i className="fas fa-user"></i>&#160;&#160;Login</Nav.Link>
+
+                <LinkContainer to='/cart'>
+                    <Nav.Link ><i className="fas fa-shopping-cart"></i>&#160;&#160;Cart</Nav.Link>
+                </LinkContainer>
+
+                <LinkContainer to='/login'>
+                    <Nav.Link ><i className="fas fa-user"></i>&#160;&#160;Login</Nav.Link>
+                </LinkContainer>
+                
                 </Navbar.Collapse>
             </Container>
             </Navbar>
