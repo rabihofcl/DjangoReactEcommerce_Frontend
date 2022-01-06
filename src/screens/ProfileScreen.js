@@ -4,6 +4,9 @@ import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { getUserDetails, updateUserProfile } from '../actions/userActions'
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
+import { listMyOrders } from '../actions/orderActions'
+import { LinkContainer } from 'react-router-bootstrap'
+import { Button } from 'react-bootstrap'
 
 
 function ProfileScreen({ history }) {
@@ -25,6 +28,9 @@ function ProfileScreen({ history }) {
     const userUpdateProfile = useSelector(state => state.userUpdateProfile)
     const { success } = userUpdateProfile
 
+    const orderListMy = useSelector(state => state.orderListMy)
+    const { loading: loadingOrders, error: errorOrders, orders } = orderListMy
+
     useEffect(() => {
         if (!userInfo) {
             history.push('/login')
@@ -32,6 +38,7 @@ function ProfileScreen({ history }) {
             if (!user || !user.name || success) {
                 dispatch({ type: USER_UPDATE_PROFILE_RESET })
                 dispatch(getUserDetails('profile'))
+                dispatch(listMyOrders())
             } else {
                 setName(user.name)
                 setEmail(user.email)
@@ -57,9 +64,9 @@ function ProfileScreen({ history }) {
 
     return (
         <div>
-            <div className="row">
-                <div className="col-md-3">
-                    User Profile
+            <div className="row mt-5 mb-4">
+                <div className="card col-md-3" style={{borderRadius:'20px'}}>
+                    <h4 className='mt-3 mb-3'>My Profile</h4>
 
                     {message && <Message variant='danger'>{message}</Message>}
                     {error && <Message variant='danger'>{error}</Message>}
@@ -111,7 +118,45 @@ function ProfileScreen({ history }) {
                     </form>
                 </div>
                 <div className="col-md-9">
-                    Update
+                    <h4 className='mt-3'>My Orders</h4>
+
+                    {loadingOrders ? (
+                        <Loader />
+                    ) : errorOrders ? (
+                        <Message variant='danger'>{errorOrders}</Message>
+                    ) : (
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Total</th>
+                                    <th scope="col">Paid</th>
+                                    <th scope="col">Delivered</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {orders.map(order => (
+                                    <tr key={order._id}>
+                                        <th scope="row">{order._id}</th>
+                                        <td>{order.createdAt.substring(0, 10)}</td>
+                                        <td>${order.totalPrice}</td>
+                                        <td>{order.isPaid ? order.paidAt.substring(0, 10) : (
+                                            <i className='fas fa-times' style={{ color: 'red' }}></i>
+                                        )}</td>
+                                        <td>
+                                            <LinkContainer to={`/order/${order._id}`}>
+                                                <Button className='btn-sm'>Details</Button>
+                                            </LinkContainer>
+                                        </td>
+                                        <td>{order.id}</td>
+                                    </tr>
+                                ))}
+
+                            </tbody>
+                        </table>
+                    )}
                 </div>
             </div>
         </div>
