@@ -1,19 +1,26 @@
-import {Nav,Navbar,Container,Form,FormControl,Button,} from "react-bootstrap";
+import {
+  Nav,
+  Navbar,
+  Container,
+  Form,
+  FormControl,
+  Button,
+} from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from '../actions/userActions'
+import { logout } from "../actions/userActions";
 
 function Header() {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const logoutHandler = () => {
-      dispatch(logout())
-  }
+    dispatch(logout());
+  };
 
   return (
     <header>
@@ -73,7 +80,11 @@ function Header() {
                     <hr className="dropdown-divider" />
                   </li>
                   <li>
-                    <Link to={null} className="dropdown-item" onClick={logoutHandler}>
+                    <Link
+                      to={null}
+                      className="dropdown-item"
+                      onClick={logoutHandler}
+                    >
                       Logout
                     </Link>
                   </li>
@@ -85,6 +96,43 @@ function Header() {
                   <i className="fas fa-user"></i>&#160;&#160;Login
                 </Nav.Link>
               </LinkContainer>
+            )}
+
+            {userInfo && userInfo.isAdmin && (
+              <div className="dropdown">
+                <button
+                  className="btn btn-light dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton2"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Admin
+                </button>
+                <ul
+                  className="dropdown-menu dropdown-menu-light"
+                  aria-labelledby="dropdownMenuButton2"
+                >
+                  <li>
+                    <Link className="dropdown-item" to="/admin/userlist">
+                      Users
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link className="dropdown-item" to="/admin/productlist">
+                      Products
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link className="dropdown-item" to="/admin/orderlist">
+                      Orders
+                    </Link>
+                  </li>
+
+                </ul>
+              </div>
             )}
           </Navbar.Collapse>
         </Container>

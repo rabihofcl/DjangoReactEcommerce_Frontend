@@ -125,7 +125,7 @@ function ProfileScreen({ history }) {
                     ) : errorOrders ? (
                         <Message variant='danger'>{errorOrders}</Message>
                     ) : (
-                        <table class="table table-striped">
+                        <table className="table table-striped">
                             <thead>
                                 <tr>
                                     <th scope="col">ID</th>
