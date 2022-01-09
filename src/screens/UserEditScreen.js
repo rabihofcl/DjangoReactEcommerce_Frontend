@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { Form } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
@@ -59,10 +60,10 @@ function UserEditScreen({ match, history }) {
 
             <FormContainer >
                 <h3 className='d-flex justify-content-center'>Edit User</h3>
-                
-                {loadingUpdate && <Loader/>}
+
+                {loadingUpdate && <Loader />}
                 {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
-                
+
                 {loading ?
                     <Loader />
                     : error ?
@@ -89,14 +90,13 @@ function UserEditScreen({ match, history }) {
 
                                 />
 
-                                <label>Is Admin</label>
-                                <input
-                                    className='form-control mb-3'
-                                    type="checkbox"
+                                <Form.Check
+                                    type='checkbox'
+                                    label='Is Admin'
                                     checked={isAdmin}
-                                    onChange={(e) => setIsAdmin(e.target.value)}
-
-                                />
+                                    onChange={(e) => setIsAdmin(e.target.checked)}
+                                >
+                                </Form.Check>
 
                                 <div className='d-flex justify-content-center pt-3 mb-3'>
                                     <button type='submit' className='btn btn-primary'>Update</button>

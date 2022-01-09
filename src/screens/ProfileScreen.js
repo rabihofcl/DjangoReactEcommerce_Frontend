@@ -35,7 +35,7 @@ function ProfileScreen({ history }) {
         if (!userInfo) {
             history.push('/login')
         } else {
-            if (!user || !user.name || success) {
+            if (!user || !user.name || success || userInfo._id !== user._id) {
                 dispatch({ type: USER_UPDATE_PROFILE_RESET })
                 dispatch(getUserDetails('profile'))
                 dispatch(listMyOrders())
@@ -44,12 +44,12 @@ function ProfileScreen({ history }) {
                 setEmail(user.email)
             }
         }
-    }, [dispatch, history, userInfo, user, success])
+    }, [dispatch, history, userInfo, user, success, loadingOrders, orders])
 
     const submitHandler = (e) => {
         e.preventDefault()
 
-        if (password != confirmPassword) {
+        if (password !== confirmPassword) {
             setMessage('Password is not match')
         } else {
             dispatch(updateUserProfile({

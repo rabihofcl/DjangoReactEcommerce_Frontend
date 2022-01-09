@@ -2,14 +2,12 @@ import {
   Nav,
   Navbar,
   Container,
-  Form,
-  FormControl,
-  Button,
 } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import SearchBox from "./SearchBox";
 import { logout } from "../actions/userActions";
 
 function Header() {
@@ -39,15 +37,7 @@ function Header() {
               style={{ maxHeight: "100px" }}
               navbarScroll
             >
-              <Form className="d-flex">
-                <FormControl
-                  type="search"
-                  placeholder="Search"
-                  className="me-2"
-                  aria-label="Search"
-                />
-                <Button variant="outline-success">Search</Button>
-              </Form>
+              <SearchBox/>
             </Nav>
 
             <LinkContainer to="/cart">
